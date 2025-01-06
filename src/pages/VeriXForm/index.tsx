@@ -1,0 +1,130 @@
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { LoginButton } from "@telegram-auth/react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import cn from "@/utils/cn";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+
+const formSchema = z.object({
+  telegramId: z.string().min(3, {
+    message: "Telegram ID must be at least 3 characters.",
+  }),
+  walletAddress: z.string().min(1, {
+    message: "Wallet address is required.",
+  }),
+  dateOfBirth: z.date({
+    required_error: "A date of birth is required.",
+  }),
+});
+
+type FormValues = z.infer<typeof formSchema>;
+
+export default function VeriXForm() {
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      telegramId: "",
+      walletAddress: "",
+    },
+  });
+
+  function onSubmit(values: FormValues) {
+    console.log(values);
+    // Here you would typically send the form data to your backend
+  }
+
+  return (
+    <div className="container mx-auto px-4">
+      <Card className="max-w-[500px] w-full mx-auto">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold text-center">UTXO Global VeriX</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <div className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="telegramId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div>Telegram ID</div>
+                      <FormControl>
+                        <Input placeholder="@example" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="walletAddress"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div>Wallet Address</div>
+                      <FormControl>
+                        <Input placeholder="Your wallet address" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="dateOfBirth"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <div>Date of birth</div>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn("w-full pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
+                            >
+                              {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="mt-8">
+                <Button type="submit" size="lg" className="w-full">
+                  Submit
+                </Button>
+                <LoginButton
+                  botUsername={"@SampleBot"}
+                  onAuthCallback={(data) => {
+                    console.log(data);
+                    // call your backend here to validate the data and sign in the user
+                  }}
+                />
+              </div>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
