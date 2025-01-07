@@ -53,8 +53,8 @@ jobs:
 
       - name: Build website
         run: |
-          yarn build:prod
+          yarn build:production
 
       - name: Push website to S3
         run: |
-          aws s3 cp out/ s3://verix.utxo.global/ --acl public-read --recursive
+          aws s3 cp dist/ s3://verix.utxo.global/ --acl public-read --recursive
