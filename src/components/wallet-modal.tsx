@@ -14,6 +14,7 @@ export default function WalletModal({ className }: { className?: string }) {
       onClick={() => {
         disconnect();
       }}
+      variant="outline"
       className={className}
       type="button"
     >
