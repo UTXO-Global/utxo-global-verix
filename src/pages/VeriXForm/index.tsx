@@ -15,6 +15,8 @@ import useAuthenticate from "@/hooks/useAuthenticate";
 import { toast } from "@/hooks/use-toast";
 import { useContext, useEffect } from "react";
 import { AppContext } from "@/providers/app-provider";
+import { LoginButton } from "@telegram-auth/react";
+import { BOT_USERNAME } from "@/constants/config";
 
 const formSchema = z.object({
   telegram_id: z.string().min(3, {
@@ -58,7 +60,7 @@ export default function VeriXForm() {
     } else {
       form.reset();
     }
-  }, [address]);
+  }, [address, form]);
 
   return (
     <div className="container mx-auto px-4">
@@ -98,7 +100,7 @@ export default function VeriXForm() {
                       <FormItem>
                         <div>Wallet Address</div>
                         <FormControl>
-                          <Input placeholder="Your wallet address" readOnly {...field} />
+                          <Input placeholder="Your wallet address" disabled {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -145,6 +147,15 @@ export default function VeriXForm() {
                 </div>
                 <div className="mt-8">
                   <WalletModal className="w-full" />
+                </div>
+                <div className="mt-8">
+                  <LoginButton
+                    botUsername={BOT_USERNAME}
+                    onAuthCallback={(data) => {
+                      console.log(data);
+                      // call your backend here to validate the data and sign in the user
+                    }}
+                  />
                 </div>
               </form>
             </Form>
