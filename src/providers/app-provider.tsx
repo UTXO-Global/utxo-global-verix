@@ -14,12 +14,12 @@ interface IAppContext {
 const defaultValue: IAppContext = {
   address: "",
   telegramInfo: {
-    id: 7386511920,
-    username: "hoangkimcoin",
-    first_name: "Kim",
-    last_name: "Coin",
+    id: 0,
+    username: "",
+    first_name: "",
+    last_name: "",
     photo_url: "",
-    auth_date: 20,
+    auth_date: 18,
     hash: "",
   },
   setTelegramInfo: () => {},

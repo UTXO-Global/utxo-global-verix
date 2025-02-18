@@ -31,7 +31,6 @@ import { formSchema, FormValues } from "@/utils/validation";
 import { api } from "@/utils/api";
 import { useSigner } from "@ckb-ccc/connector-react";
 import { isAxiosError } from "axios";
-import { DayPicker } from "react-day-picker";
 
 export default function VeriXForm() {
   const form = useForm<FormValues>({
