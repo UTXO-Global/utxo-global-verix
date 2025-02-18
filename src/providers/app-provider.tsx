@@ -14,12 +14,12 @@ interface IAppContext {
 const defaultValue: IAppContext = {
   address: "",
   telegramInfo: {
-    id: 0,
-    username: "",
-    first_name: "",
-    last_name: "",
+    id: 7386511920,
+    username: "hoangkimcoin",
+    first_name: "Kim",
+    last_name: "Coin",
     photo_url: "",
-    auth_date: 0,
+    auth_date: 20,
     hash: "",
   },
   setTelegramInfo: () => {},
@@ -28,8 +28,12 @@ const defaultValue: IAppContext = {
 const AppContext = createContext<IAppContext>(defaultValue);
 
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
-  const [address, setAddress] = useState<string | undefined>(defaultValue.address);
-  const [telegramInfo, setTelegramInfo] = useState<TelegramAuthData>(defaultValue.telegramInfo);
+  const [address, setAddress] = useState<string | undefined>(
+    defaultValue.address
+  );
+  const [telegramInfo, setTelegramInfo] = useState<TelegramAuthData>(
+    defaultValue.telegramInfo
+  );
   const signer = useSigner();
   const { setClient, disconnect } = useCcc();
 
@@ -48,10 +52,18 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
   }, [checkIsLoggedIn]);
 
   useEffect(() => {
-    setClient(DEFAULT_NETWORK === "mainnet" ? new ccc.ClientPublicMainnet() : new ccc.ClientPublicTestnet());
+    setClient(
+      DEFAULT_NETWORK === "mainnet"
+        ? new ccc.ClientPublicMainnet()
+        : new ccc.ClientPublicTestnet()
+    );
   }, [setClient]);
 
-  return <AppContext.Provider value={{ address, telegramInfo, setTelegramInfo }}>{children}</AppContext.Provider>;
+  return (
+    <AppContext.Provider value={{ address, telegramInfo, setTelegramInfo }}>
+      {children}
+    </AppContext.Provider>
+  );
 };
 
 export { AppContext, AppProvider };

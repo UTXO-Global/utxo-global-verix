@@ -72,3 +72,17 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.rdp-caption_dropdowns {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+}
+
+.rdp-dropdown_month div[aria-hidden="true"],
+.rdp-dropdown_year div[aria-hidden="true"] {
+  display: none !important;
+}
+.rdp-vhidden {
+  display: none !important;
+}
