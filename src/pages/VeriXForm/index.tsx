@@ -1,11 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import cn from "@/utils/cn";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
@@ -46,7 +56,9 @@ export default function VeriXForm() {
 
   const signMessage = async (telegram_id: number, dob: string) => {
     try {
-      const signature = await signer?.signMessage(`My tgid: ${telegram_id} - My DoB: ${dob}`);
+      const signature = await signer?.signMessage(
+        `My tgid: ${telegram_id} - My DoB: ${dob}`
+      );
       return signature?.signature;
     } catch (error: any) {
       console.log(error);
@@ -101,12 +113,16 @@ export default function VeriXForm() {
     <div className="container mx-auto px-4">
       <Card className="max-w-[600px] w-full mx-auto">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">UTXO Global VeriX</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">
+            UTXO Global VeriX
+          </CardTitle>
         </CardHeader>
         <CardContent>
           {!telegramInfo.username ? (
             <div>
-              <h1 className="text-center text-lg">Login telegram to continue</h1>
+              <h1 className="text-center text-lg">
+                Login telegram to continue
+              </h1>
               <div className="mt-4 flex justify-center">
                 <LoginButton
                   botUsername={BOT_USERNAME}
@@ -121,7 +137,9 @@ export default function VeriXForm() {
             <div>
               {!isLoggedIn ? (
                 <div>
-                  <h1 className="text-center text-lg">Connect wallet to continue</h1>
+                  <h1 className="text-center text-lg">
+                    Connect wallet to continue
+                  </h1>
                   <div className="flex items-center justify-center py-4">
                     <WalletModal />
                   </div>
@@ -137,7 +155,11 @@ export default function VeriXForm() {
                           <FormItem>
                             <div>Telegram username</div>
                             <FormControl>
-                              <Input placeholder="@example" disabled {...field} />
+                              <Input
+                                placeholder="@example"
+                                disabled
+                                {...field}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -158,14 +180,20 @@ export default function VeriXForm() {
                                 stroke="currentColor"
                                 className="size-5 cursor-pointer active:scale-90"
                                 onClick={() => {
-                                  navigator.clipboard.writeText(field.value).then(() => {
-                                    toast({
-                                      variant: "default",
-                                      title: "Copied",
-                                      description: <div className="break-all text-sm">{field.value}</div>,
-                                      duration: 3000,
+                                  navigator.clipboard
+                                    .writeText(field.value)
+                                    .then(() => {
+                                      toast({
+                                        variant: "default",
+                                        title: "Copied",
+                                        description: (
+                                          <div className="break-all text-sm">
+                                            {field.value}
+                                          </div>
+                                        ),
+                                        duration: 3000,
+                                      });
                                     });
-                                  });
                                 }}
                               >
                                 <path
@@ -176,7 +204,12 @@ export default function VeriXForm() {
                               </svg>
                             </div>
                             <FormControl>
-                              <Input placeholder="Your wallet address" readOnly className="opacity-50 cursor-not-allowed" {...field} />
+                              <Input
+                                placeholder="Your wallet address"
+                                readOnly
+                                className="opacity-50 cursor-not-allowed"
+                                {...field}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -187,25 +220,38 @@ export default function VeriXForm() {
                         name="date_of_birth"
                         render={({ field }) => (
                           <FormItem className="flex flex-col">
-                            <div>Date of birth</div>
+                            <div>Date of birth 1</div>
                             <Popover>
                               <PopoverTrigger asChild>
                                 <FormControl>
                                   <Button
                                     variant={"outline"}
-                                    className={cn("w-full pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
+                                    className={cn(
+                                      "w-full pl-3 text-left font-normal",
+                                      !field.value && "text-muted-foreground"
+                                    )}
                                   >
-                                    {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                                    {field.value ? (
+                                      format(field.value, "PPP")
+                                    ) : (
+                                      <span>Pick a date</span>
+                                    )}
                                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                   </Button>
                                 </FormControl>
                               </PopoverTrigger>
-                              <PopoverContent className="w-auto p-0" align="start">
+                              <PopoverContent
+                                className="w-auto p-0"
+                                align="start"
+                              >
                                 <Calendar
                                   mode="single"
                                   selected={field.value}
                                   onSelect={field.onChange}
-                                  disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                                  disabled={(date) =>
+                                    date > new Date() ||
+                                    date < new Date("1900-01-01")
+                                  }
                                   initialFocus
                                   pagedNavigation={true}
                                 />
@@ -217,7 +263,11 @@ export default function VeriXForm() {
                       />
                     </div>
                     <div className="mt-8">
-                      <Button type="submit" className="w-full" disabled={isPending}>
+                      <Button
+                        type="submit"
+                        className="w-full"
+                        disabled={isPending}
+                      >
                         {isPending && (
                           <svg
                             aria-hidden="true"
