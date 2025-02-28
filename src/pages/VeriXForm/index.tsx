@@ -130,10 +130,6 @@ export default function VeriXForm() {
                     setTelegramInfo(data);
                   }}
                   cornerRadius={12}
-                  requestAccess={null}
-                  authCallbackUrl={`${
-                    location?.href
-                  }?t=${new Date().getTime()}`}
                 />
               </div>
             </div>
