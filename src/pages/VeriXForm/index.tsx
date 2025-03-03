@@ -220,7 +220,7 @@ export default function VeriXForm() {
                         name="date_of_birth"
                         render={({ field }) => (
                           <FormItem className="flex flex-col">
-                            <div>Date of birth 1</div>
+                            <div>Date of birth</div>
                             <Popover>
                               <PopoverTrigger asChild>
                                 <FormControl>
