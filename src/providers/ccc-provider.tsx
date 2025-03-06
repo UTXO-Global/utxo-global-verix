@@ -6,5 +6,21 @@ export default function CCCProvider({
 }: {
   children: React.ReactNode;
 }) {
-  return <ccc.Provider>{children}</ccc.Provider>;
+  const signerSignTypeAllowed = [
+    ccc.SignerSignType.BtcEcdsa,
+    ccc.SignerSignType.CkbSecp256k1,
+    ccc.SignerSignType.DogeEcdsa,
+    ccc.SignerSignType.EvmPersonal,
+    ccc.SignerSignType.JoyId,
+  ];
+
+  return (
+    <ccc.Provider
+      signerFilter={async (signerInfo) =>
+        signerSignTypeAllowed.includes(signerInfo.signer.signType)
+      }
+    >
+      {children}
+    </ccc.Provider>
+  );
 }
