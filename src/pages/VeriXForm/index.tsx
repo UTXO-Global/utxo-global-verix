@@ -56,12 +56,24 @@ export default function VeriXForm() {
 
   const signMessage = async (telegram_id: number, dob: string) => {
     try {
-      const signature = await signer?.signMessage(
+      const signed = await signer?.signMessage(
         `My tgid: ${telegram_id} - My DoB: ${dob}`
       );
-      return signature?.signature;
+      if (signed) {
+        if (signed.signType.toLowerCase() === "joyid") {
+          return {
+            signature: JSON.stringify(signed),
+            sign_type: signed.signType.toLowerCase(),
+          };
+        } else {
+          return {
+            signature: signed.signature.split("0x")[1],
+            sign_type: signed.signType.toLowerCase(),
+          };
+        }
+      }
+      return undefined;
     } catch (error: any) {
-      console.log(error);
       throw error;
     }
   };
@@ -76,12 +88,26 @@ export default function VeriXForm() {
     try {
       setIsPending(true);
       const signature = await signMessage(telegramInfo.id, dob);
-      await api.post("/users/verify", {
+      console.log("sig =>>>", signature);
+      if (!signature) {
+        return toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Signing failed. Please try again later.",
+        });
+      }
+
+      const payload = {
         tgid: telegramInfo.id,
         ckb_address: values.wallet_address,
-        signature: signature?.split("0x")[1],
+        signature: signature.signature,
+        sign_type: signature.sign_type,
         dob: dob,
-      });
+      };
+
+      console.log("payload", payload);
+
+      await api.post("/users/verify", payload);
       form.resetField("date_of_birth");
       toast({
         variant: "default",

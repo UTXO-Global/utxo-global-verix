@@ -16,7 +16,7 @@ const defaultValue: IAppContext = {
   telegramInfo: {
     id: 0,
     username: "",
-    first_name: "",
+    first_name: "1",
     last_name: "",
     photo_url: "",
     auth_date: 18,
@@ -39,7 +39,7 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
   const checkIsLoggedIn = useCallback(async () => {
     try {
-      const address = await signer?.getInternalAddress();
+      const address = await signer?.getRecommendedAddress();
       setAddress(address);
     } catch (error) {
       disconnect();
