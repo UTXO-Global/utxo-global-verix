@@ -14,9 +14,9 @@ interface IAppContext {
 const defaultValue: IAppContext = {
   address: "",
   telegramInfo: {
-    id: 100,
-    username: "hson",
-    first_name: "1",
+    id: 0,
+    username: "",
+    first_name: "",
     last_name: "",
     photo_url: "",
     auth_date: 18,
