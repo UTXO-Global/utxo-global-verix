@@ -59,18 +59,12 @@ export default function VeriXForm() {
       const signed = await signer?.signMessage(
         `My tgid: ${telegram_id} - My DoB: ${dob}`
       );
+
       if (signed) {
-        if (signed.signType.toLowerCase() === "joyid") {
-          return {
-            signature: JSON.stringify(signed),
-            sign_type: signed.signType.toLowerCase(),
-          };
-        } else {
-          return {
-            signature: signed.signature.split("0x")[1],
-            sign_type: signed.signType.toLowerCase(),
-          };
-        }
+        return {
+          signature: JSON.stringify(signed),
+          sign_type: signed.signType.toLowerCase(),
+        };
       }
       return undefined;
     } catch (error: any) {
@@ -88,7 +82,6 @@ export default function VeriXForm() {
     try {
       setIsPending(true);
       const signature = await signMessage(telegramInfo.id, dob);
-      console.log("sig =>>>", signature);
       if (!signature) {
         return toast({
           variant: "destructive",
@@ -104,8 +97,6 @@ export default function VeriXForm() {
         sign_type: signature.sign_type,
         dob: dob,
       };
-
-      console.log("payload", payload);
 
       await api.post("/users/verify", payload);
       form.resetField("date_of_birth");
