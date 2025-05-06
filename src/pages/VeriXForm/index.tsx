@@ -103,7 +103,7 @@ export default function VeriXForm() {
       toast({
         variant: "default",
         title: "Success",
-        description: "You have successfully verified your account",
+        description: "You have successfully saved your account",
         duration: 3000,
       });
     } catch (error) {
