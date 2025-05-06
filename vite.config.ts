@@ -9,11 +9,5 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
-  },
-  server: {
-    https: {
-      key: path.resolve(__dirname, ".certs/hson-dev.local-key.pem"),
-      cert: path.resolve(__dirname, ".certs/hson-dev.local.pem"),
-    },
-  },
+  }
 });
