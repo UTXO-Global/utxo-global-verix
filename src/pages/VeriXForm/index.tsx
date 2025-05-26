@@ -65,16 +65,26 @@ export default function VeriXForm() {
   };
 
   const onSubmit = async (values: FormValues) => {
+    console.log("=>>>>>> Form Information <<<<<<=");
     const date_of_birth = new Date(values.date_of_birth);
     const year = date_of_birth.getFullYear();
     const month = String(date_of_birth.getMonth() + 1).padStart(2, "0");
     const day = String(date_of_birth.getDate()).padStart(2, "0");
     const dob = `${year}-${month}-${day}`;
+    console.log(`1. Wallet address: ${values.wallet_address}`);
+    console.log(`2. Date of Birth: ${dob}`);
+    console.log(`3. Telegram Username: ${values.telegram_username}`);
 
     try {
+      console.log("=>>> Submitting");
       setIsPending(true);
+      console.log("===>>> Call wallet -> Sign message");
       const signature = await signMessage(telegramInfo.id, dob);
       if (!signature) {
+        console.log(
+          "=== [Error] Signing failed. Please try again later.",
+          signature
+        );
         return toast({
           variant: "destructive",
           title: "Error",
@@ -90,7 +100,9 @@ export default function VeriXForm() {
         dob: dob,
       };
 
-      await api.post("/users/verify", payload);
+      console.log("===>>> Call API -> submit information", payload);
+      const res = await api.post("/users/verify", payload);
+      console.log("===>>> [Response]: ", res);
       form.resetField("date_of_birth");
       toast({
         variant: "default",
@@ -99,7 +111,7 @@ export default function VeriXForm() {
         duration: 3000,
       });
     } catch (error) {
-      console.log(error);
+      console.log("*** Submit error: ", error);
       if (isAxiosError(error)) {
         toast({
           variant: "destructive",
