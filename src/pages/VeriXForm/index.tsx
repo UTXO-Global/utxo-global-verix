@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import WalletModal from "@/components/wallet-modal";
 import useAuthenticate from "@/hooks/useAuthenticate";
 import { toast } from "@/hooks/use-toast";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "@/providers/app-provider";
 import { LoginButton } from "@telegram-auth/react";
 import { BOT_USERNAME } from "@/constants/config";
