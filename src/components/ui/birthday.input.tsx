@@ -67,10 +67,10 @@ function BirthdayInput({
       setError("");
     }
 
-    const birthday = `${month.padStart(2, "0")}-${day.padStart(
+    const birthday = `${year.padStart(4, "0")}-${month.padStart(
       2,
       "0"
-    )}-${year.padStart(4, "0")}`;
+    )}-${day.padStart(2, "0")}`;
 
     onChange(birthday);
   }, [day, month, year, isDayValid, isMonthValid, isYearValid]);
